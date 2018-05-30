@@ -87,7 +87,12 @@ ui <- fluidPage(
                   tabPanel("Cooccurances",
                            h3('Co-occurances'),
                            p('Here is a coccurance plot of the selected parts of speech'),
-                           br(), plotOutput("anndoccooc")) #end of tabPanel
+                           br(), plotOutput("anndoccooc")), #end of tabPanel
+                     
+                    tabPanel("Sentiment",
+                             h3('Sentiment'),
+                             p('Here is a sentiment analysis of the text uploaded'),
+                             br(), dataTableOutput('senttable')) #end of tabPanel
                   
       ) #end of tabsetPanel
     ) #end of mainPanel
