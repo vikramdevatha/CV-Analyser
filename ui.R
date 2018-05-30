@@ -1,19 +1,3 @@
-if (!require(dplyr)) {install.packages("dplyr")}; library(dplyr)
-if (!require(udpipe)) {install.packages("udpipe")}; library(udpipe)
-if (!require(textrank)) {install.packages("textrank")}; library(textrank)
-if (!require(lattice)) {install.packages("lattice")}; library(lattice)
-if (!require(igraph)) {install.packages("igraph")}; library(igraph)
-if (!require(ggraph)) {install.packages("ggraph")}; library(ggraph)
-if (!require(ggplot2)) {install.packages("ggplot2")}; library(ggplot2)
-if (!require(wordcloud)) {install.packages("wordcloud")}; library(wordcloud)
-if (!require(RColorBrewer)) {install.packages("RColorBrewer")}; library(RColorBrewer)
-if (!require(stringr)) {install.packages("stringr")}; library(stringr)
-if (!require(textreadr)) {install.packages("textreadr")}; library(textreadr)
-if (!require(tools)) {install.packages("tools")}; library(tools)
-if (!require(shiny)) {install.packages("shiny")}; library(shiny)
-if (!require(shinyjs)) {install.packages("shinyjs")}; library(shinyjs)
-
-
 ui <- fluidPage(
   #titlePanel("Natural Language Processing"),
   
