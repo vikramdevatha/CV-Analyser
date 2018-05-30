@@ -4,54 +4,45 @@ server = function(input, output, session){
     req(input$file1) #ensure file has been uploaded, if not, stop
     inFile <- input$file1
     ext = file_ext(sub("\\?.+", "", inFile$name)) #get the file extension
-    if(is.null(inFile)) {return(NULL)}
-    else{
       if(ext == 'txt') { #check if file extension is txt
         text1 = readLines(inFile$datapath) #read the file
-        text2 = str_replace_all(text1, "<.*?>", "") # get rid of html junk
-        return(text2)}
+        #text1 = str_replace_all(text1, "<.*?>", "") # get rid of html junk
+        return(text1)}
       else{
         if(ext == 'pdf') { #check if file extension is pdf
           text1 = pdf_text(inFile$datapath) #read the file
-          text2 = str_replace_all(text1, "<.*?>", "") # get rid of html junk
-          return(text2)}
+          #text1 = str_replace_all(text1, "<.*?>", "") # get rid of html junk
+          return(text1)}
         else{
-          if(ext == 'docx') { #check if file extension is docx
+          if(ext == 'docx') { #check if file extension is docx or doc
             text1 = read_docx(inFile$datapath) #read the file
-            text2 = str_replace_all(text1, "<.*?>", "") # get rid of html junk
-            return(text2)}}}
-    }
+            #text1 = str_replace_all(text1, "<.*?>", "") # get rid of html junk
+            return(text1)}
+          else{
+            if(ext == 'doc') { #check if file extension is docx or doc
+              text1 = read_doc(inFile$datapath) #read the file
+              return(text1)}
+          }}}
+
   }) #end of Dataset
   
-  englishmodel = reactive({
-    #model = input$model #download the english model? yes or no
-    #if(model == "Yes") { #is user does not have the english model in current working directory
-      #x = udpipe_download_model(language = "english") #download the english model
-      #englishmodel = udpipe_load_model(x$file_model) #load the english model
-    #} #end of if
-    #else{ #if user already has the english model in current working directory
-      englishmodel = udpipe_load_model("english-ud-2.0-170801.udpipe") #load the english model
-    #} #end of else
-    
-    return(englishmodel)
-  }) #end of english model
-  
   anntext = reactive({
-    anndoc = udpipe_annotate(englishmodel(), Dataset()) #tokenizes, tags and parses the text
+    library(udpipe) #check if this works for shinyapps
+    englishmodel = udpipe::udpipe_load_model("english-ud-2.0-170801.udpipe") #load the english model
+    anndoc = udpipe_annotate(englishmodel, Dataset()) #tokenizes, tags and parses the text
     anndoc = as.data.frame(anndoc) #converts the output into a data frame
     anndoc = mutate(anndoc, sentence=NULL) #drop the sentence column from the data frame
-    head(anndoc, 100) #show only a hundred rows and store in a new variable
+    anndoc = anndoc[, c(5,6,7,8,9,1,2,3,4,10,11,12,13)] #reorder the columns
+    head(anndoc, 100) #show only a hundred rows
     return(anndoc)
   }) #end of ann.text
   
   output$downloadText = downloadHandler(
-    # Tell the client browser what name to use when saving the file
     filename = function() {
-      paste("annotated_text", ".csv", sep = "")
+      paste("annotated_text", ".csv", sep = "") #default file name for saving
     },
-    
     content = function(file){
-      write.csv(anntext(), file, row.names=FALSE)
+      write.csv(anntext(), file, row.names=FALSE) #save the file
     }) #end of output$download.text
   
   output$mytable1 = renderDataTable({
@@ -67,7 +58,7 @@ server = function(input, output, session){
     minfreq = input$integer3 #min freq of words to plot
     range1 = input$range1 #range of words in the wordcloud
     
-    nouns = anntext() %>% subset(., upos %in% "NOUN")
+    nouns = anntext() %>% subset(., upos %in% "NOUN") #subset the dataset for nouns
     nounsdf = nouns %>% group_by(lemma) %>% count(lemma, sort=TRUE) #count number of nouns
     colnames(nounsdf) = c("nouns", "count") #rename the columns
     wordcloud(nounsdf$nouns, nounsdf$count, # words, their freqs 
@@ -85,7 +76,7 @@ server = function(input, output, session){
     minfreq = input$integer3 #min freq of words to plot
     range1 = input$range1 #range of words in the wordcloud
     
-    verbs = anntext() %>% subset(., upos %in% "VERB")
+    verbs = anntext() %>% subset(., upos %in% "VERB") #subset the dataset for verbs
     verbsdf = verbs %>% group_by(lemma) %>% count(lemma, sort=TRUE) #count nouns
     colnames(verbsdf) = c("verbs", "count") #rename the columns
     wordcloud(verbsdf$verbs, verbsdf$count, # words, their freqs 
@@ -102,8 +93,8 @@ server = function(input, output, session){
     size = input$integer2 #size of cooccurance plot
     minfreq = input$integer3 #min freq of words to plot
     range1 = input$range1 #range of words in the wordcloud
-    
-    anndoccooc = cooccurrence(x = subset(anntext(), upos %in% input$checkGroup), 
+    library(udpipe) #check if this works for shinyapps
+    anndoccooc = udpipe::cooccurrence(x = subset(anntext(), upos %in% input$checkGroup), 
                               term = "lemma", 
                               group = c("doc_id", "paragraph_id", "sentence_id"))
 
@@ -118,7 +109,8 @@ server = function(input, output, session){
   }) #end of output$anndoccooc
   
   output$senttable = renderDataTable({
-  lexicon <- get_sentiments("nrc")
+  library(tidytext) #check if this works for shinyapps
+  lexicon <- tidytext::get_sentiments("nrc")
   sentiment = anntext() %>% select(token) %>% #select the word
     anti_join(stop_words, by=c("token"="word")) %>%  #remove the stop words
     left_join(lexicon, by = c("token"="word")) %>% #map with the lexicon
