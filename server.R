@@ -115,5 +115,18 @@ server = function(input, output, session){
       geom_node_text(aes(label = name), col = "darkgreen", size = size) +
       theme_graph(base_family = "Arial Narrow") +  
       theme(legend.position = "none")
-  }) #end of output$ann.doc.cooc
+  }) #end of output$anndoccooc
+  
+  output$senttable = renderDataTable({
+  lexicon <- get_sentiments("nrc")
+  sentiment = anntext() %>% select(token) %>% #select the word
+    anti_join(stop_words, by=c("token"="word")) %>%  #remove the stop words
+    left_join(lexicon, by = c("token"="word")) %>% #map with the lexicon
+    filter(!is.na(sentiment)) %>% #remove words that are not matched
+    group_by(sentiment) %>%
+    summarise(score=n()) #summarise and rename the column
+  sentiment = sentiment[order(-sentiment$score),] #sort by descending order of sentiment
+  return(sentiment)
+  }) #end of output$senttable
+  
 } #end of function
