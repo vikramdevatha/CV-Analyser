@@ -1,9 +1,9 @@
 server = function(input, output, session){
   
   Dataset = reactive({
-    req(input$file1) #ensure file is not blank
+    req(input$file1) #ensure file has been uploaded, if not, stop
     inFile <- input$file1
-    ext = file_ext(sub("\\?.+", "", inFile$name))
+    ext = file_ext(sub("\\?.+", "", inFile$name)) #get the file extension
     if(is.null(inFile)) {return(NULL)}
     else{
       if(ext == 'txt') { #check if file extension is txt
@@ -49,12 +49,12 @@ server = function(input, output, session){
     }) #end of output$download.text
   
   output$mytable1 = renderDataTable({
-    inFile <- input$file1
-    if(is.null(inFile)) {return(NULL)}
-    else{
+    #inFile <- input$file1
+    #if(is.null(inFile)) {return(NULL)}
+    #else{
       table = anntext()
       return(table)
-    }
+    #}
   }) #end of output$mytable
   
   output$nounwordcloud = renderPlot({
@@ -65,8 +65,8 @@ server = function(input, output, session){
     minfreq = input$integer3 #min freq of words to plot
     range1 = input$range1 #range of words in the wordcloud
     
-    if(is.null(inFile)) {return(NULL)}
-    else{
+    #if(is.null(inFile)) {return(NULL)}
+    #else{
       nouns = anntext() %>% subset(., upos %in% "NOUN")
       nounsdf = nouns %>% group_by(lemma) %>% count(lemma, sort=TRUE) #count number of nouns
       colnames(nounsdf) = c("nouns", "count") #rename the columns
@@ -75,7 +75,7 @@ server = function(input, output, session){
                 min.freq=minfreq, # min.freq of words to consider
                 max.words = nowords, # max #words
                 colors = brewer.pal(6, color))
-    }
+    #}
   }) #end of output$noun.wordcloud
   
   output$verbwordcloud = renderPlot({
@@ -86,8 +86,8 @@ server = function(input, output, session){
     minfreq = input$integer3 #min freq of words to plot
     range1 = input$range1 #range of words in the wordcloud
     
-    if(is.null(inFile)) {return(NULL)}
-    else{
+    #if(is.null(inFile)) {return(NULL)}
+    #else{
       verbs = anntext() %>% subset(., upos %in% "VERB")
       verbsdf = verbs %>% group_by(lemma) %>% count(lemma, sort=TRUE) #count nouns
       colnames(verbsdf) = c("verbs", "count") #rename the columns
@@ -96,7 +96,7 @@ server = function(input, output, session){
                 min.freq=minfreq, # min.freq of words to consider
                 max.words = nowords, # max #words
                 colors = brewer.pal(6, color))
-    } #end of else
+    #} #end of else
   }) #output$verb.wordcloud
   
   output$anndoccooc = renderPlot({
@@ -107,8 +107,8 @@ server = function(input, output, session){
     minfreq = input$integer3 #min freq of words to plot
     range1 = input$range1 #range of words in the wordcloud
     
-    if(is.null(inFile)) {return(NULL)}
-    else{
+    #if(is.null(inFile)) {return(NULL)}
+    #else{
       anndoccooc = cooccurrence(x = subset(anntext(), upos %in% input$checkGroup), 
                                 term = "lemma", 
                                 group = c("doc_id", "paragraph_id", "sentence_id"))
@@ -121,6 +121,6 @@ server = function(input, output, session){
         geom_node_text(aes(label = name), col = "darkgreen", size = size) +
         theme_graph(base_family = "Arial Narrow") +  
         theme(legend.position = "none")
-    } #end of else
+    #} #end of else
   }) #end of output$ann.doc.cooc
 } #end of function
