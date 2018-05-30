@@ -74,19 +74,19 @@ ui <- fluidPage(
                            p('- the size fo the cooccurrence graph')), #end of tabPanel
                   
                   tabPanel("Annotated document",
-                           h3('Annotated document'), br(),
-                           p('Here is a table of the CV with each word annotated. Only 100 rows are displayed, and the whole table can be downloaded as a csv. The download button can be found at the bottom of this page.'), br(),
+                           h3('Annotated CV'), br(),
+                           p('Here is a table of the annotated CV. Only 100 rows are displayed, and the table can be downloaded as a csv file. The download button can be found at the bottom of this page.'), br(),
                            dataTableOutput('mytable1'),
                            downloadButton("downloadText", "Download Annotated CV")
                   ), #end of tabPanel
                   
                   tabPanel("Wordclouds",
                            h3('Nouns (domains of work)'), 
-                           p('Here is a wordcloud of the nouns in the uploaded document.'),
+                           p('Here is a wordcloud of the nouns in the CV.'),
                            p('This may give a quick snapshot of the domains the candidate has worked in.'),
                            br(), plotOutput('nounwordcloud'),
                            br(), h3('Verbs (roles and responsibilities)'),
-                           p('Here is a wordcloud of the verbs in the uploaded document.'),
+                           p('Here is a wordcloud of the verbs in the CV.'),
                            p('This may give a quick overview of the roles and responsibilities that the candidate has been invovled with.'),
                            br(), plotOutput('verbwordcloud')), #end of tabPanel
                   
