@@ -1,6 +1,7 @@
 server = function(input, output, session){
   
   Dataset = reactive({
+    req(input$file1) #ensure file is not blank
     inFile <- input$file1
     ext = file_ext(sub("\\?.+", "", inFile$name))
     if(is.null(inFile)) {return(NULL)}
