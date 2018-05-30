@@ -1,14 +1,9 @@
 ui <- fluidPage(
-  #titlePanel("Natural Language Processing"),
   
   sidebarLayout(
     sidebarPanel(
       
-      fileInput("file1", "Upload a file (pdf, docx or txt)", 
-                accept=c('.pdf', '.txt', '.docx'),
-                multiple=TRUE),
-      
-      fileInput("file2", "Upload another file (pdf, docx or txt)", 
+      fileInput("file1", "Upload a CV (pdf, docx or txt)", 
                 accept=c('.pdf', '.txt', '.docx'),
                 multiple=TRUE),
       
@@ -66,18 +61,18 @@ ui <- fluidPage(
       tabsetPanel(type="tabs",
                   
                   tabPanel("Read me",
-                           h3('About this app'),
-                           p("Need to write what this app does here")), #end of tabPanel
+                           h3('CV Analyser'),
+                           p("This is an app for analysing CVs and resumes of prospective hires, in order to quickly assess the fit of the person for the company.")), #end of tabPanel
                   
                   tabPanel("Annotated document",
-                           h3('Annotated document'),
+                           h4('Annotated document'),
                            p('Table of the annotated document as a dataframe'),
                            dataTableOutput('mytable1'),
                            downloadButton("downloadText", "Download Annotated Text")
                   ), #end of tabPanel
                   
                   tabPanel("Wordclouds",
-                           h3('Nouns'),
+                           h4('Nouns'),
                            p('Here is a wordcloud of the nouns in the uploaded document'),
                            br(), plotOutput('nounwordcloud'),
                            br(), h3('Verbs'),
@@ -85,7 +80,7 @@ ui <- fluidPage(
                            br(), plotOutput('verbwordcloud')), #end of tabPanel
                   
                   tabPanel("Cooccurances",
-                           h3('Co-occurances'),
+                           h4('Co-occurances'),
                            p('Here is a coccurance plot of the selected parts of speech'),
                            br(), plotOutput("anndoccooc")), #end of tabPanel
                      
