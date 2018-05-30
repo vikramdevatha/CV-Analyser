@@ -37,9 +37,9 @@ ui <- fluidPage(
                          "Parts of speech for cooccurance plot", 
                          choices = list("Adjectives (kind and nature of work)" = "ADJ", 
                                         "Adverb (quality of work)" = "ADV",
-                                        "Noun (domains)" = "NOUN", 
+                                        "Nouns (domains)" = "NOUN", 
                                         "Proper nouns (places & organizations)" = "PROPN",
-                                        "Verb (roles and responsibilities)" = "VERB"),
+                                        "Verbs (roles and responsibilities)" = "VERB"),
                          selected = c("ADJ", "NOUN")), #default selection
       br(),
       
