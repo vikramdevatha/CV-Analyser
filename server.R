@@ -24,9 +24,15 @@ server = function(input, output, session){
   }) #end of Dataset
   
   englishmodel = reactive({
-    x = udpipe_download_model(language = "english") #download the english model
-    englishmodel = udpipe_load_model(x$file_model) #load the english model
-    #englishmodel = udpipe_load_model("/Users/vikram/Documents/Dropbox/Personal/Analytics/TA/_Assignments/Group Assignment/udPipe and NLP/english-ud-2.0-170801.udpipe")
+    model = input$model #download the english model? yes or no
+    if(model == "Yes") { #is user does not have the english model in current working directory
+      x = udpipe_download_model(language = "english") #download the english model
+      englishmodel = udpipe_load_model(x$file_model) #load the english model
+    } #end of if
+    else{ #if user already has the english model in current working directory
+      englishmodel = udpipe_load_model("english-ud-2.0-170801.udpipe") #load the english model
+    } #end of else
+    
     return(englishmodel)
   }) #end of english model
   
@@ -49,12 +55,8 @@ server = function(input, output, session){
     }) #end of output$download.text
   
   output$mytable1 = renderDataTable({
-    #inFile <- input$file1
-    #if(is.null(inFile)) {return(NULL)}
-    #else{
-      table = anntext()
-      return(table)
-    #}
+    table = anntext()
+    return(table)
   }) #end of output$mytable
   
   output$nounwordcloud = renderPlot({
@@ -65,17 +67,14 @@ server = function(input, output, session){
     minfreq = input$integer3 #min freq of words to plot
     range1 = input$range1 #range of words in the wordcloud
     
-    #if(is.null(inFile)) {return(NULL)}
-    #else{
-      nouns = anntext() %>% subset(., upos %in% "NOUN")
-      nounsdf = nouns %>% group_by(lemma) %>% count(lemma, sort=TRUE) #count number of nouns
-      colnames(nounsdf) = c("nouns", "count") #rename the columns
-      wordcloud(nounsdf$nouns, nounsdf$count, # words, their freqs 
-                scale = range1, #range of words
-                min.freq=minfreq, # min.freq of words to consider
-                max.words = nowords, # max #words
-                colors = brewer.pal(6, color))
-    #}
+    nouns = anntext() %>% subset(., upos %in% "NOUN")
+    nounsdf = nouns %>% group_by(lemma) %>% count(lemma, sort=TRUE) #count number of nouns
+    colnames(nounsdf) = c("nouns", "count") #rename the columns
+    wordcloud(nounsdf$nouns, nounsdf$count, # words, their freqs 
+              scale = range1, #range of words
+              min.freq=minfreq, # min.freq of words to consider
+              max.words = nowords, # max #words
+              colors = brewer.pal(6, color))
   }) #end of output$noun.wordcloud
   
   output$verbwordcloud = renderPlot({
@@ -86,17 +85,14 @@ server = function(input, output, session){
     minfreq = input$integer3 #min freq of words to plot
     range1 = input$range1 #range of words in the wordcloud
     
-    #if(is.null(inFile)) {return(NULL)}
-    #else{
-      verbs = anntext() %>% subset(., upos %in% "VERB")
-      verbsdf = verbs %>% group_by(lemma) %>% count(lemma, sort=TRUE) #count nouns
-      colnames(verbsdf) = c("verbs", "count") #rename the columns
-      wordcloud(verbsdf$verbs, verbsdf$count, # words, their freqs 
-                scale = range1, #range of words
-                min.freq=minfreq, # min.freq of words to consider
-                max.words = nowords, # max #words
-                colors = brewer.pal(6, color))
-    #} #end of else
+    verbs = anntext() %>% subset(., upos %in% "VERB")
+    verbsdf = verbs %>% group_by(lemma) %>% count(lemma, sort=TRUE) #count nouns
+    colnames(verbsdf) = c("verbs", "count") #rename the columns
+    wordcloud(verbsdf$verbs, verbsdf$count, # words, their freqs 
+              scale = range1, #range of words
+              min.freq=minfreq, # min.freq of words to consider
+              max.words = nowords, # max #words
+              colors = brewer.pal(6, color))
   }) #output$verb.wordcloud
   
   output$anndoccooc = renderPlot({
@@ -107,20 +103,17 @@ server = function(input, output, session){
     minfreq = input$integer3 #min freq of words to plot
     range1 = input$range1 #range of words in the wordcloud
     
-    #if(is.null(inFile)) {return(NULL)}
-    #else{
-      anndoccooc = cooccurrence(x = subset(anntext(), upos %in% input$checkGroup), 
-                                term = "lemma", 
-                                group = c("doc_id", "paragraph_id", "sentence_id"))
-      
-      words = head(anndoccooc, nowords) #display a plot of top-30 co-occurrences
-      words = igraph::graph_from_data_frame(words) # creates an igraph object for plotting
-      
-      ggraph(words, layout = "fr") +  
-        geom_edge_link(aes(width = cooc, edge_alpha = cooc), edge_colour = "orange") +  
-        geom_node_text(aes(label = name), col = "darkgreen", size = size) +
-        theme_graph(base_family = "Arial Narrow") +  
-        theme(legend.position = "none")
-    #} #end of else
+    anndoccooc = cooccurrence(x = subset(anntext(), upos %in% input$checkGroup), 
+                              term = "lemma", 
+                              group = c("doc_id", "paragraph_id", "sentence_id"))
+
+    words = head(anndoccooc, nowords) #display a plot of top-30 co-occurrences
+    words = igraph::graph_from_data_frame(words) # creates an igraph object for plotting
+
+    ggraph(words, layout = "fr") +  
+      geom_edge_link(aes(width = cooc, edge_alpha = cooc), edge_colour = "orange") +  
+      geom_node_text(aes(label = name), col = "darkgreen", size = size) +
+      theme_graph(base_family = "Arial Narrow") +  
+      theme(legend.position = "none")
   }) #end of output$ann.doc.cooc
 } #end of function
