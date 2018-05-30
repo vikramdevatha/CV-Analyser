@@ -12,13 +12,19 @@ ui <- fluidPage(
                 accept=c('.pdf', '.txt', '.docx'),
                 multiple=TRUE),
       
+      radioButtons("model", label = h4("Download English model?"),
+             choices = list("Yes please" = "Yes", 
+                            "No, I have it in my working directory" = "No"), 
+             selected = "No"), #default selection
+      br(),
+      
       radioButtons("radio", label = h4("Colors for the wordclouds"),
                    choices = list("Accent" = "Accent", 
-                                  "Dark2" = "Dark2", 
+                                  "Dark" = "Dark2", 
                                   "Paired" = "Paired",
-                                  "Pastel1" = "Pastel1",
-                                  "Pastel2" = "Pastel2",
-                                  "Paired" = "Paired"), 
+                                  "Set1" = "Set1",
+                                  "Set2" = "Set2",
+                                  "Spectral" = "Spectral"), 
                    selected = "Accent"), #default selection
       br(),
       
