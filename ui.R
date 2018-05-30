@@ -7,11 +7,11 @@ ui <- fluidPage(
                 accept=c('.pdf', '.txt', '.docx'),
                 multiple=TRUE),
       
-      radioButtons("model", label = h4("Download English model?"),
-             choices = list("Yes please" = "Yes", 
-                            "No, I have it in my working directory" = "No"), 
-             selected = "No"), #default selection
-      br(),
+      #radioButtons("model", label = h4("Download English model?"),
+             #choices = list("Yes please" = "Yes", 
+                            #"No, I have it in my working directory" = "No"), 
+             #selected = "No"), #default selection
+      #br(),
       
       radioButtons("radio", label = h4("Colors for the wordclouds"),
                    choices = list("Accent" = "Accent", 

@@ -24,14 +24,14 @@ server = function(input, output, session){
   }) #end of Dataset
   
   englishmodel = reactive({
-    model = input$model #download the english model? yes or no
-    if(model == "Yes") { #is user does not have the english model in current working directory
-      x = udpipe_download_model(language = "english") #download the english model
-      englishmodel = udpipe_load_model(x$file_model) #load the english model
-    } #end of if
-    else{ #if user already has the english model in current working directory
+    #model = input$model #download the english model? yes or no
+    #if(model == "Yes") { #is user does not have the english model in current working directory
+      #x = udpipe_download_model(language = "english") #download the english model
+      #englishmodel = udpipe_load_model(x$file_model) #load the english model
+    #} #end of if
+    #else{ #if user already has the english model in current working directory
       englishmodel = udpipe_load_model("english-ud-2.0-170801.udpipe") #load the english model
-    } #end of else
+    #} #end of else
     
     return(englishmodel)
   }) #end of english model
