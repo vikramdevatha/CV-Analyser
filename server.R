@@ -22,9 +22,15 @@ server = function(input, output, session){
     }
   }) #end of Dataset
   
+  englishmodel = reactive({
+    x = udpipe_download_model(language = "english") #download the english model
+    englishmodel = udpipe_load_model(x$file_model) #load the english model
+    #englishmodel = udpipe_load_model("/Users/vikram/Documents/Dropbox/Personal/Analytics/TA/_Assignments/Group Assignment/udPipe and NLP/english-ud-2.0-170801.udpipe")
+    return(englishmodel)
+  }) #end of english model
+  
   anntext = reactive({
-    englishmodel = udpipe_load_model("english-ud-2.0-170801.udpipe")
-    anndoc = udpipe_annotate(englishmodel, Dataset()) #tokenizes, tags and parses the text
+    anndoc = udpipe_annotate(englishmodel(), Dataset()) #tokenizes, tags and parses the text
     anndoc = as.data.frame(anndoc) #converts the output into a data frame
     anndoc = mutate(anndoc, sentence=NULL) #drop the sentence column from the data frame
     head(anndoc, 100) #show only a hundred rows and store in a new variable
