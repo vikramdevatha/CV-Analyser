@@ -10,5 +10,5 @@ This app lemmatizes the words in the CV to its root form, and then visualizes th
 To run this app, you will need a local installation of R, which can be downloaded from https://www.r-project.org/
 
 After installation, run the following commands in R: <br>
-source('https://raw.githubusercontent.com/vikramdevatha/CV-Analyser/master/dependency.R') <br>
+source('https://raw.githubusercontent.com/vikramdevatha/CV-Analyser/master/dependencies.R') <br>
 runGitHub('CV-Analyser', 'vikramdevatha')
