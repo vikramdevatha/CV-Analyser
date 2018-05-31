@@ -92,13 +92,21 @@ ui <- fluidPage(
                   
                   tabPanel("Cooccurances",
                            h3('Cooccurance Graph'),
-                           p('Here is a coccurance plot of the selected parts of speech. The relevant parts of speech can be selected in the controls panel to the left. '),
+                           p('Here is a coccurance plot of the selected parts of speech. The relevant parts of speech can be selected in the controls panel to the left.'),
+                           p('- Select only Nouns for a quick snapshot of the fields of expertise'),
+                           p('- Select only Adjectives to see how the candidate describes him/herself'),
+                           p('- To see what a candidate did in different companies or places, select Nouns (domains) and Proper nouns (places & organizations)'),
+                           p('- Select Proper nouns and Verbs to see the roles and responsibilities a candidate has undertaken in different places and companies'),
                            br(), plotOutput("anndoccooc")), #end of tabPanel
                      
                     tabPanel("Sentiment",
                              h3('Sentiment'),
-                             p('Here is a likely sentiment analysis of candidate. This is based on the National Research Council (NRC) emotion lexicon.'),
-                             br(), dataTableOutput('senttable')) #end of tabPanel
+                             p('Here are two sentiment analyses of the candidate. The first is based on the National Research Council (NRC) emotion lexicon. The second is based on the AFINN lexicon, as labelled by Finn Arup Nielsen.'),
+                             br(), 
+                             h4('NRC Lexicon'), br(),
+                             dataTableOutput('senttable'), br(),
+                             h4('AFINN Lexicon'), br(),
+                             br(), dataTableOutput('senttable2')) #end of tabPanel
                   
       ) #end of tabsetPanel
     ) #end of mainPanel

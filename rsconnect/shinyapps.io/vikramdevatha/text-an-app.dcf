@@ -1,0 +1,13 @@
+name: text-an-app
+title:
+username:
+account: vikramdevatha
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 351090
+bundleId: 1400764
+url: https://vikramdevatha.shinyapps.io/text-an-app/
+when: 1527695344.01179
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: english-ud-2.0-170801.udpipe

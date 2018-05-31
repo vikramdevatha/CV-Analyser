@@ -121,4 +121,17 @@ server = function(input, output, session){
   return(sentiment)
   }) #end of output$senttable
   
+  output$senttable2 = renderDataTable({
+    library(tidytext) #check if this works for shinyapps
+    lexicon <- tidytext::get_sentiments("afinn")
+    sentiment2 = anntext() %>% select(token) %>% #select the word
+      anti_join(stop_words, by=c("token"="word")) %>%  #remove the stop words
+      left_join(lexicon, by = c("token"="word")) %>% #map with the lexicon
+      filter(!is.na(score)) %>% #remove words that are not matched
+      group_by(token) %>%
+      summarise(score=n()) #summarise and rename the column
+    sentiment2 = sentiment2[order(-sentiment2$score),] #sort by descending order of sentiment
+    return(sentiment2)
+  }) #end of output$senttable
+  
 } #end of function
