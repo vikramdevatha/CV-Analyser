@@ -1,3 +1,7 @@
+???Text Analytics - Group Assignment 2: Building a Shiny App around the Adjective???
+Aakash Bawa (11910031), Sahil Khurana (11910048) & Vikram Devatha (11910049)
+date: 2-June-2018
+
 This is an app for analysing CVs of new candidates, in order to quickly assess the fit with the company. A CV can be thought of as a compilation of: 
 
 NOUNS i.e. domains the person has worked in <br>
