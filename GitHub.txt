@@ -1,0 +1,5 @@
+To run this app:
+
+source('https://raw.githubusercontent.com/vikramdevatha/CV-Analyser/master/dependencies.R')
+
+runGitHub('CV-Analyser', 'vikramdevatha')

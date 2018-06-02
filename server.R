@@ -1,4 +1,4 @@
-#???Text Analytics - Group Assignment 2: Building a Shiny App around the Adjective???
+#Text Analytics - Group Assignment 2: Building a Shiny App around the Adjective
 #Aakash Bawa (11910031), Sahil Khurana (11910048) & Vikram Devatha (11910049)
 #date: 2-June-2018
 

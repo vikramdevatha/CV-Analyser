@@ -1,4 +1,4 @@
-#???Text Analytics - Group Assignment 2: Building a Shiny App around the Adjective???
+#Text Analytics - Group Assignment 2: Building a Shiny App around the Adjective
 #Aakash Bawa (11910031), Sahil Khurana (11910048) & Vikram Devatha (11910049)
 #date: 2-June-2018
 
@@ -61,7 +61,7 @@ ui <- fluidPage(
                   
                   tabPanel("Read me",
                            h3('CV Analyser'),
-                           p('This is an app for analysing CVs of new candidates, in order to quickly assess the fit with the company. A CV can be thought of as a compilation of'),
+                           p('This is an app for analysing CVs of new candidates, in order to quickly assess the fit with the company. A CV can be thought of as a compilation of:'),
                            p('NOUNS i.e. domains the person has worked in'),
                            p('VERBS i.e. the roles and responsibilities the person has been invovlved with'), 
                            p('PROPER NOUNS i.e. the companies, organizations and places mentioned in the CV'),
@@ -75,7 +75,7 @@ ui <- fluidPage(
                            p('- the minimum frequency of words to consider for the plot'),
                            p('- the range of word sizes for the word clouds'),
                            p('- the parts of speech to consider for making the cooccurrence graphs'),
-                           p('- the size fo the cooccurrence graph')), #end of tabPanel
+                           p('- the size fo the cooccurrence graph')),#end of tabPanel
                   
                   tabPanel("Annotated document",
                            h3('Annotated CV'), br(),
